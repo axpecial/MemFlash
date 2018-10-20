@@ -3,8 +3,10 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorGrey">#aaaaaa</color>
 
     <color name="bsWhite">#f9f9f9</color>
+    <color name="bsDarkWhite">#a9a9a9</color>
     <color name="bsAquaBlue">#5bc0de</color>
     <color name="bsRed">#d9534f</color>
     <color name="bsGreen">#5cb85c</color>
