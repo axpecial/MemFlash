@@ -4,35 +4,122 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:background="@color/bsAquaBlue">
+    android:background="@color/bsAquaBlue"
+    tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/flashcard_question"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="200dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_margin="10dp"
-        android:gravity="center"
-        android:text="Who is the 44th president of the United States?"
-        android:textColor="@color/colorGrey"
-        android:textSize="40sp"
         android:background="@drawable/card_background"
-        android:elevation="5dp" />
+        android:elevation="5dp"
+        android:gravity="center"
+        android:text="Who is the 46th president of the United States?"
+        android:textColor="@color/colorGrey"
+        android:textSize="40sp" />
 
     <TextView
         android:id="@+id/flashcard_answer"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="200dp"
         android:layout_alignParentStart="true"
         android:layout_margin="10dp"
+        android:background="@drawable/card_background"
+        android:elevation="5dp"
         android:gravity="center"
         android:text="Barack Obama"
         android:textColor="@color/colorGrey"
         android:textSize="40sp"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/flashcard_answer_1"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@id/flashcard_question"
+        android:layout_alignParentStart="true"
+        android:layout_margin="10dp"
         android:background="@drawable/card_background"
         android:elevation="5dp"
+        android:gravity="center"
+        android:text="Barack Obama"
+        android:textColor="@color/colorGrey"
+        android:textSize="30sp"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/flashcard_answer_2"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@id/flashcard_answer_1"
+        android:layout_alignParentStart="true"
+        android:layout_margin="10dp"
+        android:background="@drawable/card_background"
+        android:elevation="5dp"
+        android:gravity="center"
+        android:text="Alice Lee"
+        android:textColor="@color/colorGrey"
+        android:textSize="30sp"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/flashcard_answer_3"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@id/flashcard_answer_2"
+        android:layout_alignParentStart="true"
+        android:layout_margin="10dp"
+        android:background="@drawable/card_background"
+        android:elevation="5dp"
+        android:gravity="center"
+        android:text="Crystal Lee"
+        android:textColor="@color/colorGrey"
+        android:textSize="30sp"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/flashcard_answer_4"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@id/flashcard_answer_3"
+        android:layout_alignParentStart="true"
+        android:layout_margin="10dp"
+        android:background="@drawable/card_background"
+        android:elevation="5dp"
+        android:gravity="center"
+        android:text="LEEder ZHAO"
+        android:textColor="@color/colorGrey"
+        android:textSize="30sp"
+        android:visibility="invisible" />
+
+    <ImageButton
+        android:id="@+id/show_hint_button"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/hint_button_background"
+        android:elevation="5dp"
+        android:gravity="center"
+        android:src="@drawable/show_hint_icon" />
+
+    <ImageButton
+        android:id="@+id/hide_hint_button"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/hint_button_background"
+        android:elevation="5dp"
+        android:gravity="center"
+        android:src="@drawable/hide_hint_icon"
         android:visibility="invisible" />
 
 </RelativeLayout>
