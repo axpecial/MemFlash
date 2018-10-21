@@ -17,7 +17,7 @@
         android:background="@drawable/card_background"
         android:elevation="5dp"
         android:gravity="center"
-        android:text="Who is the 46th president of the United States?"
+        android:text="Who is the 44th president of the United States?"
         android:textColor="@color/colorGrey"
         android:textSize="40sp" />
 
@@ -27,7 +27,7 @@
         android:layout_height="200dp"
         android:layout_alignParentStart="true"
         android:layout_margin="10dp"
-        android:background="@drawable/card_background"
+        android:background="@drawable/card_background_flipped"
         android:elevation="5dp"
         android:gravity="center"
         android:text="Barack Obama"
@@ -45,7 +45,7 @@
         android:background="@drawable/card_background"
         android:elevation="5dp"
         android:gravity="center"
-        android:text="Barack Obama"
+        android:text="George Washington"
         android:textColor="@color/colorGrey"
         android:textSize="30sp"
         android:visibility="invisible" />
@@ -60,7 +60,7 @@
         android:background="@drawable/card_background"
         android:elevation="5dp"
         android:gravity="center"
-        android:text="Alice Lee"
+        android:text="George W. Bush"
         android:textColor="@color/colorGrey"
         android:textSize="30sp"
         android:visibility="invisible" />
@@ -75,7 +75,7 @@
         android:background="@drawable/card_background"
         android:elevation="5dp"
         android:gravity="center"
-        android:text="Crystal Lee"
+        android:text="Abraham Lincoln"
         android:textColor="@color/colorGrey"
         android:textSize="30sp"
         android:visibility="invisible" />
@@ -90,7 +90,7 @@
         android:background="@drawable/card_background"
         android:elevation="5dp"
         android:gravity="center"
-        android:text="LEEder ZHAO"
+        android:text="Barack Obama"
         android:textColor="@color/colorGrey"
         android:textSize="30sp"
         android:visibility="invisible" />

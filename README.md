@@ -5,7 +5,7 @@ Prepare for an upcoming exam faster with MemFlash.
 Challenge yourself with a question, try your best to answer, then tap the screen to flip the card and check if you got it right.
 
 ## App Walk-though
-<img src="https://i.imgur.com/EpbfrRH.gif" width=200><br>
+<img src="https://i.imgur.com/qjYDtMe.gif" width=200><br>
 
 ## Lab 1 User Stories
 ### Required
