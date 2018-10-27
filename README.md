@@ -4,10 +4,9 @@
 Prepare for an upcoming exam faster with MemFlash.
 Challenge yourself with a question, try your best to answer, then tap the screen to flip the card and check if you got it right.
 
-## App Walk-though
-<img src="https://i.imgur.com/qjYDtMe.gif" width=200><br>
+## App Walk-through
 
-## Lab 1 User Stories
+## Lab 1 User Stories + Walk-through
 ### Required
 - [x] Create New Project in Android Studio
 - [x] Add a view for the front side of the flashcard to display the question
@@ -22,3 +21,5 @@ Challenge yourself with a question, try your best to answer, then tap the screen
 - [x] Further customize and style the card
 ### Additional
 - [x] Hint button to show/hide the multiple choice answers
+### Walkthrough
+<img src="https://i.imgur.com/qjYDtMe.gif" width=200><br>
