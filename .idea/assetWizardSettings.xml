@@ -14,8 +14,11 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="hide_hint_icon" />
-                            <entry key="sourceFile" value="$PROJECT_DIR$/images/iconmonstr-light-bulb-13.svg" />
+                            <entry key="height" value="100" />
+                            <entry key="outputName" value="save_card_button" />
+                            <entry key="overrideSize" value="true" />
+                            <entry key="sourceFile" value="$PROJECT_DIR$/images/iconmonstr-download-11.svg" />
+                            <entry key="width" value="100" />
                           </map>
                         </option>
                       </PersistentState>
