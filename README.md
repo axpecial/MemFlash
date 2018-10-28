@@ -5,6 +5,9 @@ Prepare for an upcoming exam faster with MemFlash.
 Challenge yourself with a question, try your best to answer, then tap the screen to flip the card and check if you got it right.
 
 ## App Walk-through
+<img src="https://i.imgur.com/W82uZpU.gif" width=200><br>
+
+---
 
 ## Lab 1 User Stories + Walk-through
 ### Required
@@ -23,3 +26,22 @@ Challenge yourself with a question, try your best to answer, then tap the screen
 - [x] Hint button to show/hide the multiple choice answers
 ### Walkthrough
 <img src="https://i.imgur.com/qjYDtMe.gif" width=200><br>
+
+---
+
+## Lab 2 User Stories + Walk-through
+### Required
+- [x] User can click on a ‘+’ button that takes the user to new ‘Add Card Screen’
+- [x] The 'Add Card Screen' has a cancel button to take the user back to the main screen
+- [x] User can enter and submit a Question and Answer through the 'Add Card Screen'
+- [x] User will see the card they just created on the main screen when they press the 'Save Button'
+- [x] Push your progress to GitHub!
+### Optional
+- [ ] User can edit a card
+- [ ] An error message is shown if the user doesn't enter both a Question and an Answer
+- [ ] A notification is shown if the card was created successfully
+- [ ] User can also enter multiple choice answers when creating a card
+- [ ] App is further styled and customized!
+### Additional
+### Walkthrough
+<img src="https://i.imgur.com/W82uZpU.gif" width=200><br>
