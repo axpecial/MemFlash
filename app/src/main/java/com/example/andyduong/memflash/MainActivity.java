@@ -1,15 +1,19 @@
 package com.example.andyduong.memflash;
 
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
-    private int correct_answer_id = R.id.flashcard_mc_answer_4; // TODO
+    private static final int correct_answer_id = R.id.flashcard_mc_answer_4; // TODO: will not be constant later
+    private static final int INCORRECT_ANSWERS_MAX = 3;
 
     // MARK: Properties
     TextView flashcard_question,
@@ -20,8 +24,9 @@ public class MainActivity extends AppCompatActivity {
              flashcard_mc_answer_4;
     ImageButton show_hint_button,
                 hide_hint_button,
-                add_card_button;
-
+                add_card_button,
+                edit_card_button;
+    ArrayList<String> incorrect_answers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
         show_hint_button      = findViewById(R.id.show_hint_button);
         hide_hint_button      = findViewById(R.id.hide_hint_button);
         add_card_button       = findViewById(R.id.add_card_button);
+        edit_card_button      = findViewById(R.id.edit_card_button);
+        incorrect_answers     = new ArrayList<String>(INCORRECT_ANSWERS_MAX);
 
         // Sets onClick for flashcard question
         flashcard_question.setOnClickListener(new View.OnClickListener() {
@@ -121,16 +128,84 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Sets onClick for edit card button
+        edit_card_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigate from main activity to add card activity
+                Intent intent = new Intent(MainActivity.this, AddCardActivity.class);
+                String question = flashcard_question.getText().toString();
+                String answer = flashcard_answer.getText().toString();
+
+                // TODO: This should be removed in later iterations when we only display user answers.
+                // Store the set of incorrect answers.
+                if (R.id.flashcard_mc_answer_1 != correct_answer_id) {
+                    incorrect_answers.add(flashcard_mc_answer_1.getText().toString());
+                }
+                if (R.id.flashcard_mc_answer_2 != correct_answer_id) {
+                    incorrect_answers.add(flashcard_mc_answer_2.getText().toString());
+                }
+                if (R.id.flashcard_mc_answer_3 != correct_answer_id) {
+                    incorrect_answers.add(flashcard_mc_answer_3.getText().toString());
+                }
+                if (R.id.flashcard_mc_answer_4 != correct_answer_id) {
+                    incorrect_answers.add(flashcard_mc_answer_4.getText().toString());
+                }
+
+                intent.putExtra("question", question);
+                intent.putExtra("answer", answer);
+
+                // TODO: Figure out use an array to pass incorrect answers.
+                intent.putExtra("incorrect_answer_1", incorrect_answers.get(0));
+                intent.putExtra("incorrect_answer_2", incorrect_answers.get(1));
+                intent.putExtra("incorrect_answer_3", incorrect_answers.get(2));
+
+                MainActivity.this.startActivityForResult(intent, 300);
+            }
+        });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 200 && resultCode == RESULT_OK) {
+        // Handle data response from add card activity
+        if ((requestCode == 200 || requestCode == 300) && resultCode == RESULT_OK) {
+            // Display appropriate message via snackbars
+            if (requestCode == 200) {
+                Snackbar.make(findViewById(R.id.flashcard_question),
+                        "Card created.",
+                        Snackbar.LENGTH_SHORT)
+                        .show();
+            }
+            else if (requestCode == 300) {
+                Snackbar.make(findViewById(R.id.flashcard_question),
+                        "Card saved.",
+                        Snackbar.LENGTH_SHORT)
+                        .show();
+            }
+
             String question = data.getExtras().getString("question");
             String answer = data.getExtras().getString("answer");
 
+            // TODO: Array of incorrects
+            String incorrect_answer_1 = data.getExtras().getString("incorrect_answer_1");
+            String incorrect_answer_2 = data.getExtras().getString("incorrect_answer_2");
+            String incorrect_answer_3 = data.getExtras().getString("incorrect_answer_3");
+
             flashcard_question.setText(question);
             flashcard_answer.setText(answer);
+
+            // TODO: Array of incorrects
+            incorrect_answers.clear();
+            incorrect_answers.add(incorrect_answer_1);
+            incorrect_answers.add(incorrect_answer_2);
+            incorrect_answers.add(incorrect_answer_3);
+
+            // TODO: Figure out the randomization logic
+            flashcard_mc_answer_1.setText(incorrect_answer_1);
+            flashcard_mc_answer_2.setText(incorrect_answer_2);
+            flashcard_mc_answer_3.setText(incorrect_answer_3);
+            flashcard_mc_answer_4.setText(answer);
+
             resetCard();
         }
     }

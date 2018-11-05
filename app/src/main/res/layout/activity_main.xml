@@ -149,10 +149,13 @@
 
         android:layout_width="100dp"
         android:layout_height="100dp"
+
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
+
         android:layout_marginBottom="15dp"
         android:layout_marginEnd="15dp"
+
         android:background="@drawable/button_background"
         android:elevation="5dp"
         android:gravity="center"
@@ -163,10 +166,13 @@
 
         android:layout_width="100dp"
         android:layout_height="100dp"
+
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="15dp"
         android:layout_alignParentEnd="true"
+
+        android:layout_marginBottom="15dp"
         android:layout_marginEnd="15dp"
+
         android:background="@drawable/button_background"
         android:elevation="5dp"
         android:gravity="center"
@@ -179,13 +185,28 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="15dp"
         android:layout_alignParentBottom="true"
+
+        android:layout_marginStart="15dp"
         android:layout_marginBottom="15dp"
 
         android:background="@drawable/button_background"
         android:elevation="5dp"
         android:gravity="center"
         android:src="@drawable/add_card_icon" />
+
+    <ImageButton
+        android:id="@+id/edit_card_button"
+
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+
+        android:layout_alignTop="@+id/show_hint_button"
+        android:layout_centerHorizontal="true"
+
+        android:background="@drawable/button_background"
+        android:elevation="5dp"
+        android:gravity="center"
+        android:src="@drawable/edit_card_icon" />
 
 </RelativeLayout>
