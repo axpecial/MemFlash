@@ -1,4 +1,4 @@
-package com.example.andyduong.memflash;
+package com.andyduong.memflash;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

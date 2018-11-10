@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.example.andyduong.memflash"
+        applicationId "com.andyduong.memflash"
         minSdkVersion 23
         targetSdkVersion 28
         versionCode 1
@@ -18,6 +18,7 @@ android {
     }
 }
 
+// External variables added for the code labs
 ext {
     supportLibVersion = '28.0.0'  // variable that can be referenced to keep support libs consistent
 }
@@ -30,5 +31,9 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
+    // Dependencies added for the code labs
     implementation "com.android.support:design:${supportLibVersion}"
+    implementation "android.arch.persistence.room:runtime:1.1.1"
+    annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
+    //debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
 }
