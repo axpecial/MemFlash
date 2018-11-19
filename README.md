@@ -9,23 +9,19 @@ Challenge yourself with a question, try your best to answer, then tap the screen
 
 ---
 
-## Lab 1 User Stories + Walk-through
+## Lab 3 User Stories + Walk-through
 ### Required
-- [x] Create New Project in Android Studio
-- [x] Add a view for the front side of the flashcard to display the question
-- [x] Add a view for the back side of the flashcard to display the answer
-- [x] Build in logic to show the answer side when the card is tapped
-- [x] Push code to GitHub
+- [x] User can create a card and still see their created card when the app is relaunched
+- [x] User can create muliple cards and browse through all created cards
 ### Optional
-- [x] Toggle the flashcard between the question side and the answer side
-- [x] Style the question and answer side of the card to better distinguish between the two sides
-- [x] Add selectable multiple choice answers beneath the card
-- [x] Change the background color of the multiple choice answers when clicked to indicate whether the question
-- [x] Further customize and style the card
+- [x] User can delete a card and no longer see it in their deck anymore
+- [x] Shuffle mode: Flashcards can be shown in random order instead of the order they were created in
+- [x] User can edit a card and see the edit saved when they browse through their deck of cards
+- [x] User can create flashcards with multiple answers and be able to browse through cards with multiple choice answers shown
 ### Additional
-- [x] Hint button to show/hide the multiple choice answers
+- [x] Position of correct multiple choice answer is randomized
 ### Walkthrough
-<img src="https://i.imgur.com/qjYDtMe.gif" width=200><br>
+<img src="https://i.imgur.com/QKVr45R.gif" width=200><br>
 
 ---
 
@@ -48,17 +44,20 @@ Challenge yourself with a question, try your best to answer, then tap the screen
 
 ---
 
-## Lab 3 User Stories + Walk-through
+## Lab 1 User Stories + Walk-through
 ### Required
-- [x] User can create a card and still see their created card when the app is relaunched
-- [x] User can create muliple cards and browse through all created cards
+- [x] Create New Project in Android Studio
+- [x] Add a view for the front side of the flashcard to display the question
+- [x] Add a view for the back side of the flashcard to display the answer
+- [x] Build in logic to show the answer side when the card is tapped
+- [x] Push code to GitHub
 ### Optional
-- [x] User can delete a card and no longer see it in their deck anymore
-- [x] Shuffle mode: Flashcards can be shown in random order instead of the order they were created in
-- [x] User can edit a card and see the edit saved when they browse through their deck of cards
-- [x] User can create flashcards with multiple answers and be able to browse through cards with multiple choice answers shown
+- [x] Toggle the flashcard between the question side and the answer side
+- [x] Style the question and answer side of the card to better distinguish between the two sides
+- [x] Add selectable multiple choice answers beneath the card
+- [x] Change the background color of the multiple choice answers when clicked to indicate whether the question
+- [x] Further customize and style the card
 ### Additional
-- [x] Position of correct multiple choice answer is randomized
+- [x] Hint button to show/hide the multiple choice answers
 ### Walkthrough
-<img src="https://i.imgur.com/QKVr45R.gif" width=200><br>
-
+<img src="https://i.imgur.com/qjYDtMe.gif" width=200><br>
