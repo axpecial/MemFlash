@@ -5,7 +5,7 @@ Prepare for an upcoming exam faster with MemFlash.
 Challenge yourself with a question, try your best to answer, then tap the screen to flip the card and check if you got it right.
 
 ## App Walk-through
-<img src="https://i.imgur.com/mDiyuXg.gif" width=200><br>
+<img src="https://i.imgur.com/QKVr45R.gif" width=200><br>
 
 ---
 
@@ -45,3 +45,20 @@ Challenge yourself with a question, try your best to answer, then tap the screen
 ### Additional
 ### Walkthrough
 <img src="https://i.imgur.com/mDiyuXg.gif" width=200><br>
+
+---
+
+## Lab 3 User Stories + Walk-through
+### Required
+- [x] User can create a card and still see their created card when the app is relaunched
+- [x] User can create muliple cards and browse through all created cards
+### Optional
+- [x] User can delete a card and no longer see it in their deck anymore
+- [x] Shuffle mode: Flashcards can be shown in random order instead of the order they were created in
+- [x] User can edit a card and see the edit saved when they browse through their deck of cards
+- [x] User can create flashcards with multiple answers and be able to browse through cards with multiple choice answers shown
+### Additional
+- [x] Position of correct multiple choice answer is randomized
+### Walkthrough
+<img src="https://i.imgur.com/QKVr45R.gif" width=200><br>
+
