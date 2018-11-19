@@ -8,12 +8,18 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int correct_answer_id = R.id.flashcard_mc_answer_4; // TODO: will not be constant later
-    private static final int INCORRECT_ANSWERS_MAX = 3;
+    // MARK: Request Codes
+    private static final int REQUEST_CODE_NEW_CARD = 200;
+    private static final int REQUEST_CODE_EDIT_CARD = 300;
 
     // MARK: Properties
     TextView flashcard_question,
@@ -21,12 +27,27 @@ public class MainActivity extends AppCompatActivity {
              flashcard_mc_answer_1,
              flashcard_mc_answer_2,
              flashcard_mc_answer_3,
-             flashcard_mc_answer_4;
+             flashcard_mc_answer_4,
+             empty_state;
     ImageButton show_hint_button,
                 hide_hint_button,
                 add_card_button,
-                edit_card_button;
-    ArrayList<String> incorrect_answers;
+                edit_card_button,
+                prev_card_button,
+                next_card_button,
+                delete_card_button,
+                shuffle_cards_button,
+                unshuffle_cards_button;
+    List<Flashcard> allFlashcards;
+    List<Flashcard> shuffledFlashcards;
+    // NOTE: Array over ArrayList because the size of the list of views should be immutable. This
+    // activity indicates the maximum number of incorrect answers that are possible.
+    TextView[] allMCAnswers;
+    FlashcardDatabase flashcardDatabase;
+
+    // MARK: States
+    int currentCardDisplayedIdx = -1;
+    int currentCorrectMCAnswerId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,19 +56,48 @@ public class MainActivity extends AppCompatActivity {
         // corresponding activity
         setContentView(R.layout.activity_main);
 
-        flashcard_question    = findViewById(R.id.flashcard_question);
-        flashcard_answer      = findViewById(R.id.flashcard_answer);
+        // Initialize UI elements
+        flashcard_question = findViewById(R.id.flashcard_question);
+        flashcard_answer = findViewById(R.id.flashcard_answer);
         flashcard_mc_answer_1 = findViewById(R.id.flashcard_mc_answer_1);
         flashcard_mc_answer_2 = findViewById(R.id.flashcard_mc_answer_2);
         flashcard_mc_answer_3 = findViewById(R.id.flashcard_mc_answer_3);
         flashcard_mc_answer_4 = findViewById(R.id.flashcard_mc_answer_4);
-        show_hint_button      = findViewById(R.id.show_hint_button);
-        hide_hint_button      = findViewById(R.id.hide_hint_button);
-        add_card_button       = findViewById(R.id.add_card_button);
-        edit_card_button      = findViewById(R.id.edit_card_button);
-        incorrect_answers     = new ArrayList<String>(INCORRECT_ANSWERS_MAX);
+        empty_state = findViewById(R.id.empty_state);
+        show_hint_button = findViewById(R.id.show_hint_button);
+        hide_hint_button = findViewById(R.id.hide_hint_button);
+        add_card_button = findViewById(R.id.add_card_button);
+        edit_card_button = findViewById(R.id.edit_card_button);
+        prev_card_button = findViewById(R.id.previous_card_button);
+        next_card_button = findViewById(R.id.next_card_button);
+        delete_card_button = findViewById(R.id.delete_card_button);
+        shuffle_cards_button = findViewById(R.id.shuffle_cards_button);
+        unshuffle_cards_button = findViewById(R.id.unshuffle_cards_button);
 
-        // Sets onClick for flashcard question
+        // Initialize data structures
+        flashcardDatabase = new FlashcardDatabase(getApplicationContext());
+        allFlashcards = flashcardDatabase.getAllCards();
+        shuffledFlashcards = new ArrayList<Flashcard>(allFlashcards);
+        Collections.shuffle(shuffledFlashcards);
+        // NOTE: Initialize the array after TextView references have been initialized, otherwise, the
+        // array will hold null values
+        allMCAnswers = new TextView[]{
+                flashcard_mc_answer_1,
+                flashcard_mc_answer_2,
+                flashcard_mc_answer_3,
+                flashcard_mc_answer_4,
+        };
+
+        // Decide screen to display upon opening the app
+        if (allFlashcards.size() == 0) {
+            currentCardDisplayedIdx = -1;
+            setEmptyState();
+        } else {
+            showCardAt(0);
+        }
+
+        //======================= Set onClick listeners =======================
+        // Set onClick for flashcard question
         flashcard_question.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Sets onClick for flashcard answer
+        // Set onClick for flashcard answer
         flashcard_answer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Sets onClick for flashcard answer 1 button
+        // Set onClick for flashcard answer 1 button
         flashcard_mc_answer_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Sets onClick for flashcard answer 2 button
+        // Set onClick for flashcard answer 2 button
         flashcard_mc_answer_2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Sets onClick for flashcard answer 3 button
+        // Set onClick for flashcard answer 3 button
         flashcard_mc_answer_3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Sets onClick for flashcard answer 1 button
+        // Set onClick for flashcard answer 1 button
         flashcard_mc_answer_4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,38 +147,38 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Sets onClick for show hint button
+        // Set onClick for show hint button
         show_hint_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 show_hint_button.setVisibility(View.INVISIBLE);
                 hide_hint_button.setVisibility(View.VISIBLE);
-                showAllAnswers();
+                showMCAnswers();
             }
         });
 
-        // Sets onClick for hide hint button
+        // Set onClick for hide hint button
         hide_hint_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 hide_hint_button.setVisibility(View.INVISIBLE);
                 show_hint_button.setVisibility(View.VISIBLE);
-                hideAllAnswers();
-                resetAllAnswers();
+                hideMCAnswers();
+                resetAnswers();
             }
         });
 
-        // Sets onClick for add card button
+        // Set onClick for add card button
         add_card_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Navigate from main activity to add card activity
                 Intent intent = new Intent(MainActivity.this, AddCardActivity.class);
-                MainActivity.this.startActivityForResult(intent, 200);
+                MainActivity.this.startActivityForResult(intent, REQUEST_CODE_NEW_CARD);
             }
         });
 
-        // Sets onClick for edit card button
+        // Set onClick for edit card button
         edit_card_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,31 +186,91 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, AddCardActivity.class);
                 String question = flashcard_question.getText().toString();
                 String answer = flashcard_answer.getText().toString();
+                ArrayList<String> incorrectAnswers = new ArrayList<String>();
 
                 // TODO: This should be removed in later iterations when we only display user answers.
                 // Store the set of incorrect answers.
-                if (R.id.flashcard_mc_answer_1 != correct_answer_id) {
-                    incorrect_answers.add(flashcard_mc_answer_1.getText().toString());
-                }
-                if (R.id.flashcard_mc_answer_2 != correct_answer_id) {
-                    incorrect_answers.add(flashcard_mc_answer_2.getText().toString());
-                }
-                if (R.id.flashcard_mc_answer_3 != correct_answer_id) {
-                    incorrect_answers.add(flashcard_mc_answer_3.getText().toString());
-                }
-                if (R.id.flashcard_mc_answer_4 != correct_answer_id) {
-                    incorrect_answers.add(flashcard_mc_answer_4.getText().toString());
+                for (int i = 0; i < allMCAnswers.length; i++) {
+                    TextView mcAnswer = allMCAnswers[i];
+                    if (mcAnswer.getVisibility() != View.GONE && mcAnswer.getId() != currentCorrectMCAnswerId) {
+                        incorrectAnswers.add(mcAnswer.getText().toString());
+                    }
                 }
 
                 intent.putExtra("question", question);
                 intent.putExtra("answer", answer);
+                intent.putStringArrayListExtra("incorrect_answers", incorrectAnswers);
 
-                // TODO: Figure out use an array to pass incorrect answers.
-                intent.putExtra("incorrect_answer_1", incorrect_answers.get(0));
-                intent.putExtra("incorrect_answer_2", incorrect_answers.get(1));
-                intent.putExtra("incorrect_answer_3", incorrect_answers.get(2));
+                MainActivity.this.startActivityForResult(intent, REQUEST_CODE_EDIT_CARD);
+            }
+        });
 
-                MainActivity.this.startActivityForResult(intent, 300);
+        // Set onClick for previous card button
+        prev_card_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Lower bound check to prevent an IndexOutOfBoundsError from decrementing the index
+                if (currentCardDisplayedIdx - 1 < 0) {
+                    return;
+                }
+
+                // Safe to decrement the index so set the text for question and answer views
+                showCardAt(currentCardDisplayedIdx - 1);
+            }
+        });
+
+        // Set onClick for next card button
+        next_card_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Upper bound check to prevent an IndexOutOfBoundsError from incrementing the index
+                if (currentCardDisplayedIdx + 1 > allFlashcards.size() - 1) {
+                    return;
+                }
+
+                // Safe to increment index so set the text for question and answer views
+                showCardAt(currentCardDisplayedIdx + 1);
+            }
+        });
+
+        // Set onClick for delete card button
+        delete_card_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                removeCardAt(currentCardDisplayedIdx);
+
+                if (currentCardDisplayedIdx >= 0 && currentCardDisplayedIdx == allFlashcards.size()) {
+                    currentCardDisplayedIdx--;
+                }
+
+                if (allFlashcards.size() > 0) {
+                    showCardAt(currentCardDisplayedIdx);
+                } else {
+                    setEmptyState();
+                }
+            }
+        });
+
+        // Set onClick for shuffle cards button
+        shuffle_cards_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shuffle_cards_button.setVisibility(View.INVISIBLE);
+                unshuffle_cards_button.setVisibility(View.VISIBLE);
+                updateShuffledCards();
+                updateCards();
+                showCardAt(0);
+            }
+        });
+
+        // Set onClick for unshuffle cards button
+        unshuffle_cards_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                unshuffle_cards_button.setVisibility(View.INVISIBLE);
+                shuffle_cards_button.setVisibility(View.VISIBLE);
+                updateCards();
+                showCardAt(0);
             }
         });
     }
@@ -168,54 +278,230 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Handle data response from add card activity
-        if ((requestCode == 200 || requestCode == 300) && resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK) {
             // Display appropriate message via snackbars
-            if (requestCode == 200) {
+            // Modify the database accordingly
+            if (requestCode == REQUEST_CODE_NEW_CARD) {
                 Snackbar.make(findViewById(R.id.flashcard_question),
                         "Card created.",
                         Snackbar.LENGTH_SHORT)
                         .show();
+
+                // Get activity results
+                String question = data.getExtras().getString("question");
+                String answer = data.getExtras().getString("answer");
+                List<String> incorrectAnswers = data.getExtras().getStringArrayList("incorrect_answers");
+
+                // Store new flashcard into the database
+                addCard(new Flashcard(question, answer, incorrectAnswers));
             }
-            else if (requestCode == 300) {
+            else if (requestCode == REQUEST_CODE_EDIT_CARD) {
                 Snackbar.make(findViewById(R.id.flashcard_question),
                         "Card saved.",
                         Snackbar.LENGTH_SHORT)
                         .show();
+
+                // Get activity results
+                String question = data.getExtras().getString("question");
+                String answer = data.getExtras().getString("answer");
+                List<String> incorrectAnswers = data.getExtras().getStringArrayList("incorrect_answers");
+
+                // Edit flashcard in the database
+                Flashcard flashcardToEdit = allFlashcards.get(currentCardDisplayedIdx);
+                flashcardToEdit.setQuestion(question);
+                flashcardToEdit.setAnswer(answer);
+                flashcardToEdit.setWrongAnswers(incorrectAnswers);
+                flashcardDatabase.updateCard(flashcardToEdit);
             }
 
-            String question = data.getExtras().getString("question");
-            String answer = data.getExtras().getString("answer");
+            // Update the local list of flashcards
+            updateCards();
 
-            // TODO: Array of incorrects
-            String incorrect_answer_1 = data.getExtras().getString("incorrect_answer_1");
-            String incorrect_answer_2 = data.getExtras().getString("incorrect_answer_2");
-            String incorrect_answer_3 = data.getExtras().getString("incorrect_answer_3");
+            // Handle transition out of the empty state
+            // TODO: Might be better to look at the old size and compare to the new size.
+            if (allFlashcards.size() == 1) {
+                undoEmptyState();
+                currentCardDisplayedIdx = 0;
+            }
+        }
 
-            flashcard_question.setText(question);
-            flashcard_answer.setText(answer);
+        // Update the card display
+        showCardAt(currentCardDisplayedIdx);
+    }
 
-            // TODO: Array of incorrects
-            incorrect_answers.clear();
-            incorrect_answers.add(incorrect_answer_1);
-            incorrect_answers.add(incorrect_answer_2);
-            incorrect_answers.add(incorrect_answer_3);
 
-            // TODO: Figure out the randomization logic
-            flashcard_mc_answer_1.setText(incorrect_answer_1);
-            flashcard_mc_answer_2.setText(incorrect_answer_2);
-            flashcard_mc_answer_3.setText(incorrect_answer_3);
-            flashcard_mc_answer_4.setText(answer);
+    //======================= Handle empty state =======================
+    /**
+     * Set the activity to show an empty state when the database is empty.
+     */
+    private void setEmptyState() {
+        flashcard_question.setVisibility(View.INVISIBLE);
+        flashcard_question.setVisibility(View.INVISIBLE);
+        edit_card_button.setVisibility(View.INVISIBLE);
+        delete_card_button.setVisibility(View.INVISIBLE);
+        show_hint_button.setVisibility(View.INVISIBLE);
+        hide_hint_button.setVisibility(View.INVISIBLE);
+        shuffle_cards_button.setVisibility(View.INVISIBLE);
+        unshuffle_cards_button.setVisibility(View.INVISIBLE);
+        hideMCAnswers();
 
-            resetCard();
+        empty_state.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * Set the activity to revert back to the original state.
+     */
+    private void undoEmptyState() {
+        resetCard();
+        resetButtons();
+        resetAnswers();
+
+        empty_state.setVisibility(View.INVISIBLE);
+    }
+
+    //======================= Handle card navigation =======================
+    /**
+     * Set the activity to show all of the relevant information for the card at the input index.
+     * @param {int} index - index of the card in the database
+     */
+    private void showCardAt(int index) {
+        currentCardDisplayedIdx = index;
+
+        if (index < 0 || index >= allFlashcards.size()) {
+            return; // TODO: Throw IndexOutOfBoundsException
+        }
+
+        resetCard();
+        resetHint();
+        resetAnswers();
+
+        flashcard_question.setText(allFlashcards.get(index).getQuestion());
+        flashcard_answer.setText(allFlashcards.get(index).getAnswer());
+        List<String> wrongAnswers = allFlashcards.get(index).getWrongAnswers();
+        // NOTE: Include an extra number for the correct answer
+        currentCorrectMCAnswerId = allMCAnswers[getRandomNumber(0, wrongAnswers.size())].getId();
+
+        int wrongAnswerIdx = 0;
+        for (int mcAnswerIdx = 0; mcAnswerIdx < allMCAnswers.length; mcAnswerIdx++) {
+            TextView mcAnswer = allMCAnswers[mcAnswerIdx];
+
+            // Populate the used mc answer text field(s)
+            if (mcAnswerIdx < wrongAnswers.size() + 1) {
+                if (mcAnswer.getId() != currentCorrectMCAnswerId) {
+                    mcAnswer.setText(wrongAnswers.get(wrongAnswerIdx));
+                    wrongAnswerIdx++;
+                }
+                else {
+                    mcAnswer.setText(allFlashcards.get(index).getAnswer());
+                }
+                mcAnswer.setVisibility(View.INVISIBLE);
+            }
+            // TODO: Add adaptive layout
+            // Remove the unused mc answers from taking up space so the layout can adjust
+            else {
+                mcAnswer.setVisibility(View.GONE);
+            }
+        }
+
+        updateCardNavigationButtons();
+    }
+
+    /**
+     * Updates the visibility of the prev and next card buttons depending on the size of the
+     * list of cards and the current card index.
+     */
+    private void updateCardNavigationButtons() {
+        // Only consider displaying the buttons if there are multiple cards
+        if (allFlashcards.size() == 0) {
+            prev_card_button.setVisibility(View.INVISIBLE);
+            next_card_button.setVisibility(View.INVISIBLE);
+            return;
+        }
+
+        // Handle when the prev button appears
+        if (currentCardDisplayedIdx > 0) {
+            prev_card_button.setVisibility(View.VISIBLE);
+        }
+        else {
+            prev_card_button.setVisibility(View.INVISIBLE);
+        }
+
+        // Handle when the next button appears
+        if (currentCardDisplayedIdx < allFlashcards.size() - 1) {
+            next_card_button.setVisibility(View.VISIBLE);
+        }
+        else {
+            next_card_button.setVisibility(View.INVISIBLE);
         }
     }
 
+    /**
+     * Updates the current list of cards depending on whether it should be shuffled or in order.
+     */
+    private void updateCards() {
+        allFlashcards = flashcardDatabase.getAllCards();
+        if (isShuffled()) {
+            allFlashcards = shuffledFlashcards;
+        }
+    }
+
+    /**
+     * Reshuffles the list of flashcards.
+     */
+    private void updateShuffledCards() {
+        shuffledFlashcards = allFlashcards; // TODO: Not sure if I should make a shallow copy yet.
+        Collections.shuffle(shuffledFlashcards);
+    }
+
+    //======================= Handle card list manipulation =======================
+    /**
+     * Adds a flashcard to the list and database. This is done to preserve the current shuffling order.
+     * @param card - card to add to the currently displayed list
+     */
+    private void addCard(Flashcard card) {
+        flashcardDatabase.insertCard(card);
+        allFlashcards.add(card);
+    }
+
+    /**
+     * Removes a flashcard to the list and database. This is done to preserve the current shuffling order.
+     * @param index - index of the card to remove from the currently displayed list
+     */
+    private void removeCardAt(int index) {
+        // TODO: Flashcard is keyed by the question string. There should be an ID instead.
+        // TODO: THIS WILL CAUSE A VISUAL BUG if you input multiple questions that have the same question.
+        flashcardDatabase.deleteCard(flashcard_question.getText().toString());
+        allFlashcards.remove(index);
+    }
+
+    //======================= Reset to original state =======================
+    /**
+     * Resets the main card so that the question is visible and the answer is hidden.
+     */
     private void resetCard() {
         flashcard_question.setVisibility(View.VISIBLE);
         flashcard_answer.setVisibility(View.INVISIBLE);
     }
 
-    private void resetAllAnswers() {
+    /**
+     * Resets the buttons so that all of the buttons, except hide hint are visible. Card
+     * navigation buttons are handle separately.
+     */
+    private void resetButtons() {
+        add_card_button.setVisibility(View.VISIBLE);
+        edit_card_button.setVisibility(View.VISIBLE);
+        delete_card_button.setVisibility(View.VISIBLE);
+        show_hint_button.setVisibility(View.VISIBLE);
+        hide_hint_button.setVisibility(View.INVISIBLE);
+        shuffle_cards_button.setVisibility(View.VISIBLE);
+        unshuffle_cards_button.setVisibility(View.INVISIBLE);
+        updateCardNavigationButtons();
+    }
+
+    /**
+     * Resets the multiple choice answers so that all of them are unselected.
+     */
+    private void resetAnswers() {
         flashcard_mc_answer_1.setBackgroundResource(R.drawable.card_background);
         flashcard_mc_answer_1.setTextColor(
                 getResources().getColor(R.color.colorDarkGrey, null)
@@ -232,33 +518,77 @@ public class MainActivity extends AppCompatActivity {
         flashcard_mc_answer_4.setTextColor(
                 getResources().getColor(R.color.colorDarkGrey, null)
         );
+        hideMCAnswers();
     }
 
-    private void showAllAnswers() {
-        flashcard_mc_answer_1.setVisibility(View.VISIBLE);
-        flashcard_mc_answer_2.setVisibility(View.VISIBLE);
-        flashcard_mc_answer_3.setVisibility(View.VISIBLE);
-        flashcard_mc_answer_4.setVisibility(View.VISIBLE);
+    //======================= Handle hints =======================
+    /**
+     * Show all of the multiple choice answers.
+     */
+    private void showMCAnswers() {
+        if (flashcard_mc_answer_1.getVisibility() != View.GONE) { flashcard_mc_answer_1.setVisibility(View.VISIBLE); }
+        if (flashcard_mc_answer_2.getVisibility() != View.GONE) { flashcard_mc_answer_2.setVisibility(View.VISIBLE); }
+        if (flashcard_mc_answer_3.getVisibility() != View.GONE) { flashcard_mc_answer_3.setVisibility(View.VISIBLE); }
+        if (flashcard_mc_answer_4.getVisibility() != View.GONE) { flashcard_mc_answer_4.setVisibility(View.VISIBLE); }
     }
 
-    private void hideAllAnswers() {
-        flashcard_mc_answer_1.setVisibility(View.INVISIBLE);
-        flashcard_mc_answer_2.setVisibility(View.INVISIBLE);
-        flashcard_mc_answer_3.setVisibility(View.INVISIBLE);
-        flashcard_mc_answer_4.setVisibility(View.INVISIBLE);
+    /**
+     * Hide all of the multiple choice answers.
+     */
+    private void hideMCAnswers() {
+        if (flashcard_mc_answer_1.getVisibility() != View.GONE) { flashcard_mc_answer_1.setVisibility(View.INVISIBLE); }
+        if (flashcard_mc_answer_2.getVisibility() != View.GONE) { flashcard_mc_answer_2.setVisibility(View.INVISIBLE); }
+        if (flashcard_mc_answer_3.getVisibility() != View.GONE) { flashcard_mc_answer_3.setVisibility(View.INVISIBLE); }
+        if (flashcard_mc_answer_4.getVisibility() != View.GONE) { flashcard_mc_answer_4.setVisibility(View.INVISIBLE); }
     }
 
+    /**
+     * Resets the hint buttons.
+     */
+    private void resetHint() {
+        show_hint_button.setVisibility(View.VISIBLE);
+        hide_hint_button.setVisibility(View.INVISIBLE);
+    }
+
+    //======================= Handle shuffle =======================
+
+    /**
+     * Determines if the shuffle mode is selected.
+     * @return true if shuffle mode is selected, false otherwise.
+     */
+    private boolean isShuffled() {
+        return unshuffle_cards_button.getVisibility() == View.VISIBLE;
+    }
+
+    //======================= Handle user selection =======================
+    /**
+     * Highlights the selected answer and the correct answer
+     * @param {int} id - id of the multiple choice answer that the user selected
+     */
     private void checkAnswer(int id) {
-        if (this.correct_answer_id != id) {
+        // If the user selects an incorrect answer, highlight it
+        if (this.currentCorrectMCAnswerId != id) {
             findViewById(id).setBackgroundResource(R.drawable.card_background_incorrect);
             ((TextView) findViewById(id)).setTextColor(
                     getResources().getColor(R.color.bsWhite, null)
             );
         }
 
-        findViewById(this.correct_answer_id).setBackgroundResource(R.drawable.card_background_correct);
-        ((TextView) findViewById(this.correct_answer_id)).setTextColor(
+        // Always highlight the correct answer
+        findViewById(this.currentCorrectMCAnswerId).setBackgroundResource(R.drawable.card_background_correct);
+        ((TextView) findViewById(this.currentCorrectMCAnswerId)).setTextColor(
                 getResources().getColor(R.color.bsWhite, null)
         );
+    }
+
+    /**
+     * Returns a random number between minNumber and maxNumber, inclusive.
+     * @author Codepath
+     * @param {int} minNumber - minimum number
+     * @param {int} maxNumber - maximum number
+     */
+    public int getRandomNumber(int minNumber, int maxNumber) {
+        Random rand = new Random();
+        return rand.nextInt((maxNumber - minNumber) + 1) + minNumber;
     }
 }

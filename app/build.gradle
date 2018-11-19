@@ -32,8 +32,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     // Dependencies added for the code labs
-    implementation "com.android.support:design:${supportLibVersion}"
-    implementation "android.arch.persistence.room:runtime:1.1.1"
-    annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
-    //debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
+    implementation "com.android.support:design:${supportLibVersion}"   // for Snackbar
+    implementation "android.arch.persistence.room:runtime:1.1.1"       // for Room library
+    annotationProcessor "android.arch.persistence.room:compiler:1.1.1" // for annotation processor
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'       // for ADB
 }

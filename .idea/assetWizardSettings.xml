@@ -14,11 +14,9 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="height" value="100" />
-                            <entry key="outputName" value="edit_card_icon" />
+                            <entry key="outputName" value="shuffle_cards_icon" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="$PROJECT_DIR$/images/iconmonstr-edit-10.svg" />
-                            <entry key="width" value="100" />
+                            <entry key="sourceFile" value="$PROJECT_DIR$/images/iconmonstr-media-control-42.svg" />
                           </map>
                         </option>
                       </PersistentState>

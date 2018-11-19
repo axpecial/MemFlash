@@ -3,8 +3,9 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="colorDarkGrey">#808080</color>
+    <color name="colorDarkGrey">#A0A0A0</color>
     <color name="colorGrey">#cfcfcf</color>
+    <color name="colorBabyBlue">#89CFF0</color>
 
     <color name="bsWhite">#f9f9f9</color>
     <color name="bsAquaBlue">#5bc0de</color>

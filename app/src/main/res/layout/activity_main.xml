@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bsAquaBlue"
+    android:background="@color/colorBabyBlue"
     tools:context=".MainActivity">
 
     <TextView
@@ -12,13 +12,17 @@
 
         android:layout_width="match_parent"
         android:layout_height="200dp"
+
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+
         android:layout_margin="10dp"
+
         android:background="@drawable/card_background"
         android:elevation="5dp"
         android:gravity="center"
-        android:text="Who is the 44th president of the United States?"
+
+        android:text="Sample Question"
         android:textColor="@color/colorDarkGrey"
         android:textSize="40sp"
         android:fontFamily="sans-serif-condensed" />
@@ -36,11 +40,11 @@
         android:layout_marginRight="10dp"
         android:layout_marginBottom="5dp"
 
-        android:background="@drawable/card_background_flipped"
+        android:background="@drawable/card_background"
         android:elevation="5dp"
         android:gravity="center"
 
-        android:text="Barack Obama"
+        android:text="Sample Answer"
         android:textColor="@color/colorDarkGrey"
         android:textSize="40sp"
         android:fontFamily="sans-serif-condensed"
@@ -147,66 +151,181 @@
     <ImageButton
         android:id="@+id/show_hint_button"
 
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
 
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
 
         android:layout_marginBottom="15dp"
-        android:layout_marginEnd="15dp"
+        android:layout_marginEnd="35dp"
 
+        android:src="@drawable/show_hint_icon"
         android:background="@drawable/button_background"
+
         android:elevation="5dp"
-        android:gravity="center"
-        android:src="@drawable/show_hint_icon" />
+        android:gravity="center" />
 
     <ImageButton
         android:id="@+id/hide_hint_button"
 
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
 
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
 
         android:layout_marginBottom="15dp"
-        android:layout_marginEnd="15dp"
+        android:layout_marginEnd="35dp"
 
+        android:src="@drawable/hide_hint_icon"
         android:background="@drawable/button_background"
+
         android:elevation="5dp"
         android:gravity="center"
-        android:src="@drawable/hide_hint_icon"
         android:visibility="invisible" />
 
     <ImageButton
         android:id="@+id/add_card_button"
 
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
 
-        android:layout_marginStart="15dp"
+        android:layout_marginStart="35dp"
         android:layout_marginBottom="15dp"
 
+        android:src="@drawable/add_card_icon"
         android:background="@drawable/button_background"
+
         android:elevation="5dp"
-        android:gravity="center"
-        android:src="@drawable/add_card_icon" />
+        android:gravity="center" />
 
     <ImageButton
         android:id="@+id/edit_card_button"
 
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+
+        android:layout_alignTop="@+id/flashcard_question"
+        android:layout_alignEnd="@+id/flashcard_question"
+
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+
+        android:src="@drawable/edit_card_icon"
+        android:background="@null"
+
+        android:elevation="5dp"
+        android:gravity="center" />
+
+    <ImageButton
+        android:id="@+id/shuffle_cards_button"
+
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+
+        android:layout_alignTop="@+id/flashcard_question"
+        android:layout_alignStart="@+id/flashcard_question"
+
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="5dp"
+
+        android:src="@drawable/shuffle_cards_icon"
+        android:background="@null"
+
+        android:elevation="5dp"
+        android:gravity="center" />
+
+    <ImageButton
+        android:id="@+id/unshuffle_cards_button"
+
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+
+        android:layout_alignTop="@+id/flashcard_question"
+        android:layout_alignStart="@+id/flashcard_question"
+
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="5dp"
+
+        android:src="@drawable/unshuffle_cards_icon"
+        android:background="@null"
+
+        android:elevation="5dp"
+        android:gravity="center"
+        android:visibility="invisible" />
+
+    <ImageButton
+        android:id="@+id/previous_card_button"
+
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+
+        android:layout_alignBottom="@+id/flashcard_question"
+        android:layout_alignStart="@+id/flashcard_question"
+
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="5dp"
+
+        android:src="@drawable/previous_card_icon"
+        android:background="@null"
+
+        android:elevation="5dp"
+        android:gravity="center"
+        android:visibility="invisible" />
+
+    <ImageButton
+        android:id="@+id/next_card_button"
+
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+
+        android:layout_alignBottom="@+id/flashcard_question"
+        android:layout_alignEnd="@+id/flashcard_question"
+
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+
+        android:src="@drawable/next_card_icon"
+        android:background="@null"
+
+        android:elevation="5dp"
+        android:gravity="center"
+        android:visibility="invisible" />
+
+    <ImageButton
+        android:id="@+id/delete_card_button"
+
+        android:layout_width="70dp"
+        android:layout_height="70dp"
 
         android:layout_alignTop="@+id/show_hint_button"
         android:layout_centerHorizontal="true"
 
+        android:src="@drawable/delete_card_icon"
         android:background="@drawable/button_background"
-        android:elevation="5dp"
+
         android:gravity="center"
-        android:src="@drawable/edit_card_icon" />
+
+        android:elevation="5dp" />
+
+    <TextView
+        android:id="@+id/empty_state"
+
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+
+        android:layout_centerInParent="true"
+        android:layout_margin="10dp"
+
+        android:text="No flashcards yet. Click the add button to start studying!"
+        android:textColor="@color/bsWhite"
+        android:textSize="45sp"
+        android:fontFamily="sans-serif-condensed"
+        android:gravity="center"
+
+        android:visibility="invisible" />
 
 </RelativeLayout>

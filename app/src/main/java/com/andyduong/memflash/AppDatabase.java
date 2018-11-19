@@ -6,7 +6,7 @@ import android.arch.persistence.room.RoomDatabase;
 import com.andyduong.memflash.Flashcard;
 import com.andyduong.memflash.FlashcardDao;
 
-@Database(entities = {Flashcard.class}, version = 1)
+@Database(entities = {Flashcard.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract FlashcardDao flashcardDao();
 }

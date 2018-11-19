@@ -9,6 +9,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class AddCardActivity extends AppCompatActivity {
 
@@ -20,12 +23,16 @@ public class AddCardActivity extends AppCompatActivity {
                 new_flashcard_incorrect_answer_3;
     ImageButton cancel_card_button,
                 save_card_button;
+    // NOTE: Array over ArrayList because the size of the list of views should be immutable. This
+    // activity indicates the maximum number of incorrect answers that are possible.
+    EditText[] new_flashcard_incorrect_answers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_card);
 
+        // UI elements
         new_flashcard_question           = findViewById(R.id.new_flashcard_question);
         new_flashcard_answer             = findViewById(R.id.new_flashcard_answer);
         new_flashcard_incorrect_answer_1 = findViewById(R.id.new_flashcard_incorrect_answer_1);
@@ -34,26 +41,31 @@ public class AddCardActivity extends AppCompatActivity {
         cancel_card_button               = findViewById(R.id.cancel_card_button);
         save_card_button                 = findViewById(R.id.save_card_button);
 
-        // Handles editing the current card
+        // Data Structures
+        // NOTE: Initialize the array after EditView references have been initialized, otherwise, the
+        // array will hold null values
+        new_flashcard_incorrect_answers = new EditText[] {
+            new_flashcard_incorrect_answer_1,
+            new_flashcard_incorrect_answer_2,
+            new_flashcard_incorrect_answer_3,
+        };
+
+        // Get intent data
         String question = getIntent().getStringExtra("question");
         String answer = getIntent().getStringExtra("answer");
+        // ArrayList over array because incorrect answers are optional
+        List<String> incorrectAnswers = getIntent().getStringArrayListExtra("incorrect_answers");
 
-        // TODO: Use an array for storing incorrect answers. Figure out how to populate those fields by iterating.
-        String incorrect_answer_1 = getIntent().getStringExtra("incorrect_answer_1");
-        String incorrect_answer_2 = getIntent().getStringExtra("incorrect_answer_2");
-        String incorrect_answer_3 = getIntent().getStringExtra("incorrect_answer_3");
-
-        if (question != null && answer != null
-                && incorrect_answer_1 != null
-                && incorrect_answer_2 != null
-                && incorrect_answer_3 != null) {
+        // Handle edit card intent by populating the text fields
+        if (question != null && answer != null && incorrectAnswers != null) {
             new_flashcard_question.setText(question);
             new_flashcard_answer.setText(answer);
-            new_flashcard_incorrect_answer_1.setText(incorrect_answer_1);
-            new_flashcard_incorrect_answer_2.setText(incorrect_answer_2);
-            new_flashcard_incorrect_answer_3.setText(incorrect_answer_3);
+            for (int i = 0; i < incorrectAnswers.size(); i++) {
+                new_flashcard_incorrect_answers[i].setText(incorrectAnswers.get(i));
+            }
         }
 
+        //======================= Set onClick listeners =======================
         // Sets onClick for cancel card button
         cancel_card_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,9 +84,14 @@ public class AddCardActivity extends AppCompatActivity {
                 Intent data = new Intent();
                 String question = new_flashcard_question.getText().toString().trim();
                 String answer = new_flashcard_answer.getText().toString().trim();
-                String incorrect_answer_1 = new_flashcard_incorrect_answer_1.getText().toString().trim();
-                String incorrect_answer_2 = new_flashcard_incorrect_answer_2.getText().toString().trim();
-                String incorrect_answer_3 = new_flashcard_incorrect_answer_3.getText().toString().trim();
+                ArrayList<String> incorrectAnswers = new ArrayList<String>();
+                // Compile non-empty entries for incorrect answers
+                for (int i = 0; i < new_flashcard_incorrect_answers.length; i++) {
+                    String incorrectAnswer = new_flashcard_incorrect_answers[i].getText().toString().trim();
+                    if (!incorrectAnswer.equals("")) {
+                        incorrectAnswers.add(incorrectAnswer);
+                    }
+                }
 
                 // Error messages via toasts
                 if (question.length() == 0) {
@@ -87,22 +104,14 @@ public class AddCardActivity extends AppCompatActivity {
                     toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
                     toast.show();
                 }
-                else if (incorrect_answer_1.length() == 0
-                         || incorrect_answer_2.length() == 0
-                         || incorrect_answer_3.length() == 0) {
-                    Toast toast = Toast.makeText(getApplicationContext(), "Incorrect answer field is empty.", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-                    toast.show();
-                }
                 else {
                     data.putExtra("question", question);
                     data.putExtra("answer", answer);
-                    data.putExtra("incorrect_answer_1", incorrect_answer_1);
-                    data.putExtra("incorrect_answer_2", incorrect_answer_2);
-                    data.putExtra("incorrect_answer_3", incorrect_answer_3);
+                    data.putStringArrayListExtra("incorrect_answers", incorrectAnswers);
                     setResult(RESULT_OK, data);
 
                     finish();
+
                 }
             }
         });
