@@ -10,6 +10,10 @@ Challenge yourself with a question, try your best to answer, then tap the screen
 ---
 
 ## Lab 3 User Stories + Walk-through
+### Description
+* Local database using Room to provide CRUD operations
+* Navigation through a list of cards
+* Shuffle mode and randomized multiple choice arrangements
 ### Required
 - [x] User can create a card and still see their created card when the app is relaunched
 - [x] User can create muliple cards and browse through all created cards
@@ -26,6 +30,9 @@ Challenge yourself with a question, try your best to answer, then tap the screen
 ---
 
 ## Lab 2 User Stories + Walk-through
+### Description
+* Activity navigation and data transfer using Intents
+* Display messages using Toasts and Snackbars
 ### Required
 - [x] User can click on a ‘+’ button that takes the user to new ‘Add Card Screen’
 - [x] The 'Add Card Screen' has a cancel button to take the user back to the main screen
@@ -38,13 +45,14 @@ Challenge yourself with a question, try your best to answer, then tap the screen
 - [x] A notification is shown if the card was created successfully
 - [x] User can also enter multiple choice answers when creating a card
 - [x] App is further styled and customized!
-### Additional
 ### Walkthrough
 <img src="https://i.imgur.com/mDiyuXg.gif" width=200><br>
 
 ---
 
 ## Lab 1 User Stories + Walk-through
+### Description
+* Basic setup for a flashcard app using TextViews, ImageButtons, and on-click listeners
 ### Required
 - [x] Create New Project in Android Studio
 - [x] Add a view for the front side of the flashcard to display the question
