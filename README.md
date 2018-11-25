@@ -26,6 +26,10 @@ Expand your memory in a flash with MemFlash.
 ---
 
 ## Lab 3 User Stories + Walk-through
+### Description
+* Local database using Room to provide CRUD operations
+* Navigation through a list of cards
+* Shuffle mode and randomized multiple choice arrangements
 ### Required
 - [x] User can create a card and still see their created card when the app is relaunched
 - [x] User can create muliple cards and browse through all created cards
@@ -42,6 +46,9 @@ Expand your memory in a flash with MemFlash.
 ---
 
 ## Lab 2 User Stories + Walk-through
+### Description
+* Activity navigation and data transfer using Intents
+* Display messages using Toasts and Snackbars
 ### Required
 - [x] User can click on a ‘+’ button that takes the user to new ‘Add Card Screen’
 - [x] The 'Add Card Screen' has a cancel button to take the user back to the main screen
@@ -54,13 +61,14 @@ Expand your memory in a flash with MemFlash.
 - [x] A notification is shown if the card was created successfully
 - [x] User can also enter multiple choice answers when creating a card
 - [x] App is further styled and customized!
-### Additional
 ### Walkthrough
 <img src="https://i.imgur.com/mDiyuXg.gif" width=200><br>
 
 ---
 
 ## Lab 1 User Stories + Walk-through
+### Description
+* Basic setup for a flashcard app using TextViews, ImageButtons, and on-click listeners
 ### Required
 - [x] Create New Project in Android Studio
 - [x] Add a view for the front side of the flashcard to display the question
@@ -71,7 +79,7 @@ Expand your memory in a flash with MemFlash.
 - [x] Toggle the flashcard between the question side and the answer side
 - [x] Style the question and answer side of the card to better distinguish between the two sides
 - [x] Add selectable multiple choice answers beneath the card
-- [x] Change the background color of the multiple choice answers when clicked to indicate whether the question
+- [x] Change the background color of the multiple choice answers when clicked to indicate whether the question was answered correctly
 - [x] Further customize and style the card
 ### Additional
 - [x] Hint button to show/hide the multiple choice answers
