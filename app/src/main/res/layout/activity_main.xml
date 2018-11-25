@@ -7,49 +7,54 @@
     android:background="@color/colorBabyBlue"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/flashcard_question"
+    <FrameLayout
+        android:id="@+id/flashcard"
 
         android:layout_width="match_parent"
         android:layout_height="200dp"
-
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-
-        android:layout_margin="10dp"
-
-        android:background="@drawable/card_background"
-        android:elevation="5dp"
-        android:gravity="center"
-
-        android:text="Sample Question"
-        android:textColor="@color/colorDarkGrey"
-        android:textSize="40sp"
-        android:fontFamily="sans-serif-condensed" />
-
-    <TextView
-        android:id="@+id/flashcard_answer"
-
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-
-        android:layout_alignParentStart="true"
 
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="5dp">
 
-        android:background="@drawable/card_background"
-        android:elevation="5dp"
-        android:gravity="center"
+        <TextView
+            android:id="@+id/flashcard_question"
 
-        android:text="Sample Answer"
-        android:textColor="@color/colorDarkGrey"
-        android:textSize="40sp"
-        android:fontFamily="sans-serif-condensed"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
 
-        android:visibility="invisible" />
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+
+            android:background="@drawable/card_background"
+            android:gravity="center"
+
+            android:text="Sample Question"
+            android:textColor="@color/colorDarkGrey"
+            android:textSize="40sp"
+            android:fontFamily="sans-serif-condensed" />
+
+        <TextView
+            android:id="@+id/flashcard_answer"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+
+            android:background="@drawable/card_background"
+            android:gravity="center"
+
+            android:text="Sample Answer"
+            android:textColor="@color/colorDarkGrey"
+            android:textSize="40sp"
+            android:fontFamily="sans-serif-condensed"
+
+            android:visibility="invisible" />
+
+    </FrameLayout>
 
     <TextView
         android:id="@+id/flashcard_mc_answer_1"
@@ -57,16 +62,15 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
 
-        android:layout_below="@id/flashcard_answer"
+        android:layout_below="@id/flashcard"
         android:layout_alignParentStart="true"
 
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="5dp"
-        android:background="@drawable/card_background"
 
-        android:elevation="5dp"
+        android:background="@drawable/card_background"
         android:gravity="center"
 
         android:text="George Washington"
@@ -208,8 +212,8 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
 
-        android:layout_alignTop="@+id/flashcard_question"
-        android:layout_alignEnd="@+id/flashcard_question"
+        android:layout_alignTop="@id/flashcard"
+        android:layout_alignEnd="@id/flashcard"
 
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
@@ -226,8 +230,8 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
 
-        android:layout_alignTop="@+id/flashcard_question"
-        android:layout_alignStart="@+id/flashcard_question"
+        android:layout_alignTop="@id/flashcard"
+        android:layout_alignStart="@id/flashcard"
 
         android:layout_marginTop="5dp"
         android:layout_marginStart="5dp"
@@ -239,18 +243,55 @@
         android:gravity="center" />
 
     <ImageButton
-        android:id="@+id/unshuffle_cards_button"
+        android:id="@+id/shuffle_cards_selected_button"
 
         android:layout_width="40dp"
         android:layout_height="40dp"
 
-        android:layout_alignTop="@+id/flashcard_question"
-        android:layout_alignStart="@+id/flashcard_question"
+        android:layout_alignTop="@id/flashcard"
+        android:layout_alignStart="@id/flashcard"
 
         android:layout_marginTop="5dp"
         android:layout_marginStart="5dp"
 
-        android:src="@drawable/unshuffle_cards_icon"
+        android:src="@drawable/shuffle_cards_selected_icon"
+        android:background="@null"
+
+        android:elevation="5dp"
+        android:gravity="center"
+        android:visibility="invisible" />
+
+    <ImageButton
+        android:id="@+id/timer_button"
+
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+
+        android:layout_alignTop="@id/flashcard"
+        android:layout_alignStart="@id/flashcard"
+
+        android:layout_marginTop="45dp"
+        android:layout_marginStart="5dp"
+
+        android:src="@drawable/timer_icon"
+        android:background="@null"
+
+        android:elevation="5dp"
+        android:gravity="center" />
+
+    <ImageButton
+        android:id="@+id/timer_selected_button"
+
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+
+        android:layout_alignTop="@id/flashcard"
+        android:layout_alignStart="@id/flashcard"
+
+        android:layout_marginTop="45dp"
+        android:layout_marginStart="5dp"
+
+        android:src="@drawable/timer_selected_icon"
         android:background="@null"
 
         android:elevation="5dp"
@@ -263,8 +304,8 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
 
-        android:layout_alignBottom="@+id/flashcard_question"
-        android:layout_alignStart="@+id/flashcard_question"
+        android:layout_alignBottom="@id/flashcard"
+        android:layout_alignStart="@id/flashcard"
 
         android:layout_marginLeft="5dp"
         android:layout_marginBottom="5dp"
@@ -282,8 +323,8 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
 
-        android:layout_alignBottom="@+id/flashcard_question"
-        android:layout_alignEnd="@+id/flashcard_question"
+        android:layout_alignBottom="@id/flashcard"
+        android:layout_alignEnd="@id/flashcard"
 
         android:layout_marginRight="5dp"
         android:layout_marginBottom="5dp"
@@ -301,7 +342,7 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
 
-        android:layout_alignTop="@+id/show_hint_button"
+        android:layout_alignTop="@id/show_hint_button"
         android:layout_centerHorizontal="true"
 
         android:src="@drawable/delete_card_icon"
@@ -318,11 +359,31 @@
         android:layout_height="200dp"
 
         android:layout_centerInParent="true"
+
         android:layout_margin="10dp"
 
         android:text="No flashcards yet. Click the add button to start studying!"
         android:textColor="@color/bsWhite"
         android:textSize="45sp"
+        android:fontFamily="sans-serif-condensed"
+        android:gravity="center"
+
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/countdown"
+
+        android:layout_width="70dp"
+        android:layout_height="35dp"
+
+        android:layout_centerHorizontal="true"
+        android:layout_alignTop="@id/flashcard"
+
+        android:layout_marginTop="10dp"
+
+        android:text="1000"
+        android:textColor="@color/colorDarkGrey"
+        android:textSize="24sp"
         android:fontFamily="sans-serif-condensed"
         android:gravity="center"
 

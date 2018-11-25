@@ -42,8 +42,8 @@ public class AddCardActivity extends AppCompatActivity {
         save_card_button                 = findViewById(R.id.save_card_button);
 
         // Data Structures
-        // NOTE: Initialize the array after EditView references have been initialized, otherwise, the
-        // array will hold null values
+        // NOTE: Initialize the array after EditView references have been initialized, otherwise,
+        // the array will hold null values
         new_flashcard_incorrect_answers = new EditText[] {
             new_flashcard_incorrect_answer_1,
             new_flashcard_incorrect_answer_2,
@@ -54,7 +54,8 @@ public class AddCardActivity extends AppCompatActivity {
         String question = getIntent().getStringExtra("question");
         String answer = getIntent().getStringExtra("answer");
         // ArrayList over array because incorrect answers are optional
-        List<String> incorrectAnswers = getIntent().getStringArrayListExtra("incorrect_answers");
+        List<String> incorrectAnswers =
+                getIntent().getStringArrayListExtra("incorrect_answers");
 
         // Handle edit card intent by populating the text fields
         if (question != null && answer != null && incorrectAnswers != null) {
@@ -74,6 +75,7 @@ public class AddCardActivity extends AppCompatActivity {
 
                 // Dismiss activity to navigate from add card activity back to main activity
                 finish();
+                overridePendingTransition(R.anim.left_in, R.anim.right_out);
             }
         });
 
@@ -87,7 +89,8 @@ public class AddCardActivity extends AppCompatActivity {
                 ArrayList<String> incorrectAnswers = new ArrayList<String>();
                 // Compile non-empty entries for incorrect answers
                 for (int i = 0; i < new_flashcard_incorrect_answers.length; i++) {
-                    String incorrectAnswer = new_flashcard_incorrect_answers[i].getText().toString().trim();
+                    String incorrectAnswer =
+                            new_flashcard_incorrect_answers[i].getText().toString().trim();
                     if (!incorrectAnswer.equals("")) {
                         incorrectAnswers.add(incorrectAnswer);
                     }
@@ -95,12 +98,14 @@ public class AddCardActivity extends AppCompatActivity {
 
                 // Error messages via toasts
                 if (question.length() == 0) {
-                    Toast toast = Toast.makeText(getApplicationContext(), "Question field is empty.", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            "Question field is empty.", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
                     toast.show();
                 }
                 else if (answer.length() == 0) {
-                    Toast toast = Toast.makeText(getApplicationContext(), "Answer field is empty.", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            "Answer field is empty.", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
                     toast.show();
                 }
@@ -111,7 +116,7 @@ public class AddCardActivity extends AppCompatActivity {
                     setResult(RESULT_OK, data);
 
                     finish();
-
+                    overridePendingTransition(R.anim.left_in, R.anim.right_out);
                 }
             }
         });
