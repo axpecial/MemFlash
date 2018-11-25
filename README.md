@@ -1,11 +1,27 @@
 # MemFlash
 
 ## App Description
-Prepare for an upcoming exam faster with MemFlash.
-Challenge yourself with a question, try your best to answer, then tap the screen to flip the card and check if you got it right.
+Study for your next exam without the need to carry around a tall stack of flashcards.
+If you're feeling confident, try challenging yourself further with the shuffle and timer modes.
+Expand your memory in a flash with MemFlash.
 
 ## App Walk-through
-<img src="https://i.imgur.com/QKVr45R.gif" width=200><br>
+<img src="https://i.imgur.com/QurLuY9.gif" width=200><br>
+
+---
+
+## Lab 4 User Stories + Walk-through
+### Required
+- [x] User sees a transition animation when going from the main screen to the add card screen.
+- [x] User sees flashcards animating in / out when the 'next' button is tapped
+### Optional
+- [x] Updated app icons
+- [x] User sees a countdown timer for each question
+- [x] User sees a 'card flip' animation when the card is tapped and the answer is shown
+- [x] User sees a celebration animation with confetti when they answer a question correctly
+### Additional
+### Walkthrough
+<img src="https://i.imgur.com/QurLuY9.gif" width=200><br>
 
 ---
 
