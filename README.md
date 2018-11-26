@@ -11,6 +11,10 @@ Expand your memory in a flash with MemFlash.
 ---
 
 ## Lab 4 User Stories + Walk-through
+### Description
+* Custom app icon
+* Animations. Confetti animation using the Leonids library by Github user plattysoft
+* Timer mode
 ### Required
 - [x] User sees a transition animation when going from the main screen to the add card screen.
 - [x] User sees flashcards animating in / out when the 'next' button is tapped
